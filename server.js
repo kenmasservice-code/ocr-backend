@@ -158,6 +158,8 @@ app.post("/ocr", async (req, res) => {
 });
 
 // 🚀 START SERVER
-app.listen(3000, () => {
-  console.log("🚀 SERVER OK en http://localhost:3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("🚀 SERVER OK en puerto " + PORT);
 });
