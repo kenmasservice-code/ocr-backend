@@ -11,8 +11,10 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
 const openai = new OpenAI({
-  apiKey: "process.env.OPENAI_API_KEY",
+  apiKey: process.env.OPENAI_API_KEY,
 });
+
+console.log("API KEY EXISTE:", !!process.env.OPENAI_API_KEY);
 
 // 🧪 TEST
 app.get("/test", (req, res) => {
