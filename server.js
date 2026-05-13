@@ -104,9 +104,11 @@ app.post("/ocr", async (req, res) => {
         const cajas = parseFloat(partes[4]) || 0;
         const piezas = parseFloat(partes[5]) || 0;
 
+        const codigoLimpio = partes[1].replace(/\D/g, "");
+
         // validación real
         if (!/^\d{4,6}$/.test(clave)) continue;
-        if (!/^\d{10,14}$/.test(codigo)) continue;
+        if (!/^\d{10,16}$/.test(codigoLimpio)) continue;
 
         resultado.push({
           clave,
@@ -129,7 +131,7 @@ app.post("/ocr", async (req, res) => {
 
       console.log("Fallback activado");
 
-      const regex = /^(\d{4,6})\s+(\d{10,14})\s+(.+?)\s+(\d+)\s+([\d.]+)\s+(\d+)$/;
+      const regex = /^(\d{4,6})\s+(\d{10,16})\s+(.+?)\s+(\d+)\s+([\d.]+)\s+(\d+)$/;
 
       for (let linea of lineas) {
         const match = linea.match(regex);
