@@ -16,25 +16,25 @@ const openai = new OpenAI({
 
 console.log("API KEY EXISTE:", !!process.env.OPENAI_API_KEY);
 
-// 🧪 TEST
+// TEST
 app.get("/test", (req, res) => {
   return res.send("OK");
 });
 
-// 🔥 OCR PRINCIPAL
+// OCR PRINCIPAL
 app.post("/ocr", async (req, res) => {
-  console.log("\n📩 OCR REQUEST");
+  console.log("\nOCR REQUEST");
 
   try {
     const { imageBase64 } = req.body;
 
     if (!imageBase64) {
-      console.log("❌ Sin imagen");
+      console.log("Sin imagen");
       return res.status(400).json([]);
     }
 
     // =============================
-    // 🧠 OCR
+    // OCR
     // =============================
     const ocr = await openai.responses.create({
       model: "gpt-4.1-mini",
@@ -65,19 +65,19 @@ app.post("/ocr", async (req, res) => {
     }
 
     // =============================
-    // 📄 LIMPIEZA
+    // LIMPIEZA
     // =============================
     const lineas = texto
       .split("\n")
       .map(l => l.trim())
       .filter(l => l.length > 0);
 
-    console.log("📄 LINEAS:", lineas.length);
+    console.log("LINEAS:", lineas.length);
 
     // =============================
-    // 🔥 PARSEO TABLA "|"
+    // PARSEO TABLA "|"
     // =============================
-    console.log("📊 Parseo tabla");
+    console.log("Parseo tabla");
 
     const resultado = [];
 
@@ -123,11 +123,11 @@ app.post("/ocr", async (req, res) => {
     }
 
     // =============================
-    // 🔁 FALLBACK (por espacios)
+    // FALLBACK (por espacios)
     // =============================
     if (resultado.length === 0) {
 
-      console.log("🔁 Fallback activado");
+      console.log("Fallback activado");
 
       const regex = /^(\d{4,6})\s+(\d{10,14})\s+(.+?)\s+(\d+)\s+([\d.]+)\s+(\d+)$/;
 
@@ -147,9 +147,9 @@ app.post("/ocr", async (req, res) => {
       }
     }
 
-    console.log("✅ FILAS DETECTADAS:", resultado.length);
+    console.log("FILAS DETECTADAS:", resultado.length);
 
-    // ✅ RESPUESTA FINAL (UNA SOLA VEZ)
+    // RESPUESTA FINAL (UNA SOLA VEZ)
     return res.status(200).json(resultado);
 
   } catch (err) {
@@ -159,9 +159,9 @@ app.post("/ocr", async (req, res) => {
   }
 });
 
-// 🚀 START SERVER
+// START SERVER
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log("🚀 SERVER OK en puerto " + PORT);
+  console.log("SERVER OK en puerto " + PORT);
 });
